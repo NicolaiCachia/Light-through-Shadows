@@ -56,3 +56,25 @@ public class AutoMovePlayer : MonoBehaviour
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
 }
+
+
+public class Chaser : MonoBehaviour
+{
+    public Transform player;  // Public reference to the player Transform
+    private Rigidbody2D playerRb;  // Private variable for the player's Rigidbody2D
+
+    void Start()
+    {
+        if (player != null) {
+            playerRb = player.GetComponent<Rigidbody2D>();  // Initialize the playerRb variable
+        }
+    }
+
+    void Update()
+    {
+        // Example of using playerRb in your code
+        if (playerRb != null) {
+            // Do something with playerRb.velocity or other properties
+        }
+    }
+}
