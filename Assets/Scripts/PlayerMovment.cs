@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -5,13 +6,10 @@ public class AutoMovePlayer : MonoBehaviour
 {
     public float moveSpeed = 10f;
     public float speedIncrement = 8f;
-    public float minSpeed = 6f;
+    public float minSpeed = 1f;
     public float maxSpeed = 25f;
     public float jumpForce = 700f; // Force applied upwards to perform a jump
-    public Transform groundCheck; // A Transform positioned where you expect the ground to be relative to your player
-    public float groundCheckRadius = 0.2f; // The radius of the ground check
-    public LayerMask whatIsGround; // A LayerMask indicating what is considered ground
-
+    
     private Rigidbody2D rb;
     private bool isGrounded; // Whether or not the player is currently touching the ground
 
@@ -23,9 +21,6 @@ public class AutoMovePlayer : MonoBehaviour
 
     private void Update()
     {
-        // Ground check
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
-
         // Speed adjustment
         if (Input.GetKey(KeyCode.A))
         {
@@ -49,32 +44,19 @@ public class AutoMovePlayer : MonoBehaviour
         rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        // If you're using a ground check, this helps visualize it in the editor
-        if (groundCheck == null) return;
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-    }
-}
-
-
-public class Chaser : MonoBehaviour
-{
-    public Transform player;  // Public reference to the player Transform
-    private Rigidbody2D playerRb;  // Private variable for the player's Rigidbody2D
-
-    void Start()
-    {
-        if (player != null) {
-            playerRb = player.GetComponent<Rigidbody2D>();  // Initialize the playerRb variable
+        if (other.collider.CompareTag("Ground"))
+        {
+            isGrounded = true;
         }
     }
 
-    void Update()
+    private void OnCollisionExit2D(Collision2D other)
     {
-        // Example of using playerRb in your code
-        if (playerRb != null) {
-            // Do something with playerRb.velocity or other properties
+        if (other.collider.CompareTag("Ground"))
+        {
+            isGrounded = false;
         }
     }
 }
