@@ -13,10 +13,11 @@ public class Chaser : MonoBehaviour
     public float increment = 0.1f;
     public float max = 10;
     public float min = 5;
-    
+
     public float maxdistance = 10;
     public Color brightColor = Color.white;
     public Color darkcolor = Color.black;
+    public int direction = 1;
 
     void Update()
     {
@@ -37,14 +38,22 @@ public class Chaser : MonoBehaviour
             }
             
             // Move towards the player
-            transform.position = Vector3.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
+            transform.position += Vector3.right * direction * speed * Time.deltaTime;
         }
         
         // change the light color
         float distance = Vector3.Distance(transform.position, player.position);
         float t = distance / maxdistance;
 
-        camera.backgroundColor = Color.Lerp(darkcolor, brightColor, t);
+        if (direction > 0)
+        {
+            t = Mathf.Min(t, 0.75f);
+            camera.backgroundColor = Color.Lerp(darkcolor, brightColor, t);
+        }
+        else
+        {
+            camera.backgroundColor = Color.Lerp(darkcolor, brightColor, t);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -55,5 +64,10 @@ public class Chaser : MonoBehaviour
             // Implement game over logic here
         }
     }
-
+    
+    
+    public void FlipDirection()
+    {
+        direction = -1;
+    }
 }
