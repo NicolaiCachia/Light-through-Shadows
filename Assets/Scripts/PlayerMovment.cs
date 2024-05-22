@@ -42,6 +42,7 @@ public class AutoMovePlayer : MonoBehaviour
     {
         // Automatic movement to the right
         rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
+        Debug.Log(moveSpeed);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -49,6 +50,11 @@ public class AutoMovePlayer : MonoBehaviour
         if (other.collider.CompareTag("Ground"))
         {
             isGrounded = true;
+
+            if (Mathf.Abs(other.contacts[0].point.x - transform.position.x) > 0.4f)
+            {
+                moveSpeed = minSpeed;
+            }
         }
     }
 
