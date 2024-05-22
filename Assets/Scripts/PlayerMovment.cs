@@ -32,7 +32,7 @@ public class AutoMovePlayer : MonoBehaviour
         }
 
         // Jumping
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        if (isGrounded && Input.GetKeyDown(KeyCode.W))
         {
             rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
         }
