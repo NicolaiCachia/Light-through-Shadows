@@ -18,6 +18,6 @@ public class MainMenu : MonoBehaviour
             audioSource.Play();
         }
 
-        SceneManager.LoadScene("SampleScene"); // Replace "MainGame" with the name of your main game scene
+        SceneManager.LoadScene("SampleScene"); //send me to game
     }
 }

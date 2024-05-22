@@ -51,7 +51,9 @@ public class AutoMovePlayer : MonoBehaviour
         {
             isGrounded = true;
 
-            if (Mathf.Abs(other.contacts[0].point.x - transform.position.x) > 0.4f)
+            
+            
+            if (Mathf.Abs(other.contacts[0].point.x - transform.position.x) > 0.4f && Mathf.Abs(other.contacts[0].point.y - transform.position.y) < 0.3f)
             {
                 moveSpeed = minSpeed;
             }
