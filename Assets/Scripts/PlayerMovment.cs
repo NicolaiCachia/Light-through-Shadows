@@ -9,7 +9,8 @@ public class AutoMovePlayer : MonoBehaviour
     public float minSpeed = 1f;
     public float maxSpeed = 25f;
     public float jumpForce = 700f; // Force applied upwards to perform a jump
-    
+    public AudioClip impact;
+    AudioSource audioSource;
     private Rigidbody2D rb;
     private bool isGrounded; // Whether or not the player is currently touching the ground
 
@@ -17,24 +18,27 @@ public class AutoMovePlayer : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         moveSpeed = Mathf.Clamp(moveSpeed, minSpeed, maxSpeed);
+        
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
         // Speed adjustment
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             moveSpeed = Mathf.Max(minSpeed, moveSpeed - speedIncrement * Time.deltaTime);
         }
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             moveSpeed = Mathf.Min(maxSpeed, moveSpeed + speedIncrement * Time.deltaTime);
         }
 
         // Jumping
-        if (isGrounded && Input.GetKeyDown(KeyCode.W))
+        if (isGrounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)))
         {
             rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            audioSource.PlayOneShot(impact);  //sound when jumping
         }
     }
 
